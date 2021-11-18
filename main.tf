@@ -69,7 +69,7 @@ resource "aws_iam_role_policy_attachment" "clean_old_ami" {
 variable "filename" {  default = "package" }
 resource "aws_lambda_function" "clean_old_ami" {
   filename         = "${path.module}/${var.filename}.zip"
-  source_code_hash = "${base64sha256(file("${path.module}/${var.filename}.zip"))}"
+  source_code_hash = filebase64("${path.module}/${var.filename}.zip")
   function_name    = "${var.prefix}_clean_old_ami"
   role             = "${aws_iam_role.clean_old_ami.arn}"
   handler          = "${var.filename}.lambda_handler"
